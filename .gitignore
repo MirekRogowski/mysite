@@ -2,3 +2,5 @@
 /venv/
 *.pyc
 blog/__pycache__/*
+blog/__pycache__/urls.*.pyc
+blog/__pycache__/views.*.pyc
