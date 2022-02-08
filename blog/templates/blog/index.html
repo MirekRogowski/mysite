@@ -6,8 +6,8 @@
             <a href="{% url 'post-detail' post.pk %}">{{ post.title }} </a> -
             {{ post.author }}<br>
             {{ post.text }}<br>
-            <a href="{% url 'post-update' post.pk %}" type="submit" class="btn btn-secondary">Edit</a>
         </li>
     {% endfor %}
 </ul>
 {% endblock %}
+

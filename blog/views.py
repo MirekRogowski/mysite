@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.utils import timezone
+from django.urls import reverse_lazy
 from .models import Post
 from .forms import PostForm, UpdateForm
 
@@ -15,6 +16,7 @@ from .forms import PostForm, UpdateForm
 class HoneView(ListView):
     model = Post
     template_name = "blog/index.html"
+    ordering = ['-id']
 
 
 class PostDetailView(DetailView):
@@ -41,6 +43,7 @@ class UpdatePostView(UpdateView):
 class DeletePostView(DeleteView):
     model = Post
     template_name = 'blog/post_delete.html'
+    success_url = reverse_lazy('blog-home')
 
 
 def post_detail(request, pk):

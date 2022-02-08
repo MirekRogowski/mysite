@@ -15,5 +15,7 @@
     </div>
 
 <br>
+<a href="{% url 'post-update' post.pk %}" type="submit" class="btn btn-secondary">Edit</a>
+<a href="{% url 'post-delete' post.pk %}" type="button" class="btn btn-outline-secondary">Usuń post</a>
 <a href="{% url 'blog-home' %}" type="button" class="btn btn-outline-secondary">Powrót</a>
 {% endblock %}

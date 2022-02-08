@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'blog/base.html' %}
+{% block title %}
+    Usunięcie postu
+{% endblock %}
+{% block content %}
+    <h2>Usunięcie postu: {{ post.title }} </h2>
+    <br>
+    <div class="mb-3">
+        <form method="POST" >
+            {% csrf_token %}
+            {{ form }}<br>
+            <stron>Na pewno usunąć post?</stron>
+            <br><br>
+            <button type="submit" class="btn btn-secondary">Usuń Post</button>
+        </form>
+    </div>
+{% endblock %}
