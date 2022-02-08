@@ -1,4 +1,4 @@
-{% extends 'blog/base.html' %}
+{% extends "blog/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
     <div class="content-section">
@@ -8,17 +8,14 @@
                 <legend class="border-bottom mb-4">Join Today</legend>
                 {{ form|crispy }}
             </fieldset>
-            <div class = "form-group">
-                <button class="btn -btl-outline-info" type=""submit>
-                    Sign Up
-                </button>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Sign Up</button>
             </div>
         </form>
-        <div class="borde-top pt-3">
+        <div class="border-top pt-3">
             <small class="text-muted">
-                Aleready have An Account <a class="ml-2" href="{% url 'login' %}">Sign in</a>
+                Already Have An Account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
             </small>
-
         </div>
     </div>
-{% endblock %}
+{% endblock content %}
