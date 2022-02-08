@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.utils import timezone
 from .models import Post
-from .forms import PostForm
+from .forms import PostForm, UpdateForm
 
 
 
@@ -24,13 +24,29 @@ class PostDetailView(DetailView):
 
 class AddPostView(CreateView):
     model = Post
+    form_class = PostForm
     template_name = 'blog/post_add.html'
-    fields = "__all__"
+    # zakomentowane linie poniewż używamy PostForm
+    # fields = "__all__"
+    # fields = ['author', 'title', 'title_tag', 'text']
+
+
+class UpdatePostView(UpdateView):
+    model = Post
+    template_name = 'blog/post_update.html'
+    form_class = UpdateForm
+    # fields = ['title', 'title_tag', 'text']
+
+
+class DeletePostView(DeleteView):
+    model = Post
+    template_name = 'blog/post_delete.html'
 
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'blog/post_detail.html', {'post': post})
+
 
 
 def post_new(request):
