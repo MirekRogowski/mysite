@@ -1,4 +1,7 @@
 {% extends 'blog/base.html' %}
+{% block title %}
+    {{ post.title_tag }}
+{% endblock %}
 
 {% block content %}
     <div class="post">
@@ -7,7 +10,10 @@
                 {{ post.published_date }}
             </div>
         {% endif %}
-        <h2>{{ post.title }}</h2>
+        <h2>{{ post.title }} - {{ post.pk }}</h2>
         <p>{{ post.text|linebreaksbr }}</p>
     </div>
+
+<br>
+<a href="{% url 'blog-home' %}" type="button" class="btn btn-outline-secondary">Powrót</a>
 {% endblock %}

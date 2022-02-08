@@ -3,7 +3,10 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.post_list, name='blog-home'),
-    path('post/<int:pk>/', views.post_detail, name='post_detail'),
+    path('', views.HoneView.as_view(), name='blog-home'),
+    path('post/<int:pk>', views.PostDetailView.as_view(), name='post-detail'),
+    path('post-add/', views.AddPostView.as_view(), name='post-add'),
+
+    # path('post/<int:pk>/', views.post_detail, name='post_detail'),
     path('post/new', views.post_new, name='blog-post-new'),
 ]
