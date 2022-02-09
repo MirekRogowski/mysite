@@ -3,15 +3,20 @@
     Usunięcie postu
 {% endblock %}
 {% block content %}
-    <h2>Usunięcie postu: {{ post.title }} </h2>
+
+{% if user.is_authenticated %}
+
+    <h3> {{ post.title }} </h3>
     <br>
     <div class="mb-3">
         <form method="POST" >
             {% csrf_token %}
-            {{ form }}<br>
-            <stron>Na pewno usunąć post?</stron>
-            <br><br>
-            <button type="submit" class="btn btn-secondary">Usuń Post</button>
+            {{ form }}
+            <button type="submit" class="btn btn-danger">Usuń Post</button>
         </form>
     </div>
+{% else %}
+    Nie jesteś zalogowany
+{% endif %}
+
 {% endblock %}

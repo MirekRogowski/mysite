@@ -3,7 +3,9 @@
     Edycja postu
 {% endblock %}
 {% block content %}
-    <h2>Edycja postu </h2>
+
+{% if user.is_authenticated %}
+    <h3>Edycja postu </h3>
     <br>
     <div class="mb-3">
         <form method="POST" >
@@ -12,4 +14,8 @@
             <button type="submit" class="btn btn-secondary">Update</button>
         </form>
     </div>
+{% else %}
+    Nie jesteś zalogowany
+{% endif %}
+
 {% endblock %}

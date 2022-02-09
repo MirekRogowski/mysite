@@ -6,7 +6,8 @@
 /blog/templates/blog/snippet.html
 *.log
 *.pot
-*/*/*/__pycache__/*
-*/*/__pycache__/*
-*/__pycache/*
+*/*/*/__pycache__/*.pyc
+*/*/__pycache__/*.pyc
+*/__pycache/*.pyc
 /blog/templates/blog/base_.html
+/users/templates/users/test*

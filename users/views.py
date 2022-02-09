@@ -1,20 +1,41 @@
 from django.shortcuts import render, redirect
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+
+from django.views import generic
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView
+from django.urls import reverse_lazy
+
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 
 
-def register(request):
-    if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'Your account is created! You are now anle to log in!')
-            return redirect('login')
-    else:
-        form = UserRegisterForm()
-    return render(request, 'users/register.html', {'form': form})
+class UserRegisterView(generic.CreateView):
+    form_class = UserCreationForm
+    template_name = 'users/register.html'
+    success_url = reverse_lazy('login')
+
+
+class BlogLoginView(LoginView):
+    template_name = 'users/login.html'
+
+
+
+
+# def register(request):
+#     if request.method == 'POST':
+#         form = UserRegisterForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             username = form.cleaned_data.get('username')
+#             messages.success(request, f'Your account is created! You are now able to log in!')
+#             return redirect('login')
+#     else:
+#         form = UserRegisterForm()
+#     return render(request, 'users/register.html', {'form': form})
+#
+#
 
 
 @login_required

@@ -3,7 +3,9 @@
     Dodaj nowy wpis
 {% endblock %}
 {% block content %}
-    <h2>Dodaj wpis </h2>
+
+{% if user.is_authenticated %}
+    <h3>Dodaj wpis </h3>
     <br>
     <div class="mb-3">
         <form method="POST" >
@@ -12,4 +14,8 @@
             <button type="submit" class="btn btn-secondary">Dodaj wpis</button>
         </form>
     </div>
+{% else %}
+    Nie jesteś zalogowany
+{% endif %}
+
 {% endblock %}
