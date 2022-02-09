@@ -21,6 +21,10 @@ class BlogLoginView(LoginView):
     template_name = 'users/login.html'
 
 
+class UserRegister(generic.CreateView):
+    form_class = UserRegisterForm
+    template_name = 'users/register.html'
+    success_url = reverse_lazy('login')
 
 
 # def register(request):

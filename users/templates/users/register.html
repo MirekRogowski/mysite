@@ -2,6 +2,7 @@
 {% block title %}
     Register
 {% endblock %}
+{% load crispy_forms_tags %}
 {% block content %}
     {% if user.is_authenticated %}
     <h2>Register ... </h2>
@@ -9,7 +10,7 @@
     <div class="mb-3">
         <form method="POST" >
             {% csrf_token %}
-            {{ form }}<br>
+            {{ form|crispy }}<br>
             <button type="submit" class="btn btn-secondary">Register</button>
         </form>
     </div>

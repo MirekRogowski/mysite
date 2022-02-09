@@ -21,17 +21,24 @@ class Post(models.Model):
         self.save()
 
     def __str__(self):
-        return f"{self.author} - {self.title} "
+        return f"{self.author} - {self.title} -{self.category}"
 
     def get_absolute_url(self):
         return reverse("blog-home")
 
 
 class Category(models.Model):
-    name_category = models.CharField(max_length=200)
+    content = models.CharField(max_length=200)
+    # post = models.ForeignKey(Post, on_delete=models.)
 
     def __str__(self):
-        return self.name_category
+        return self.content
 
     def get_absolute_url(self):
         return reverse("blog-home")
+
+
+class Comment(models.Model):
+    content = models.TextField()
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
