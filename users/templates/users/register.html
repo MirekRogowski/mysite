@@ -3,6 +3,7 @@
     Register
 {% endblock %}
 {% block content %}
+    {% if user.is_authenticated %}
     <h2>Register ... </h2>
     <br>
     <div class="mb-3">
@@ -12,5 +13,11 @@
             <button type="submit" class="btn btn-secondary">Register</button>
         </form>
     </div>
-
+    {% else %}
+        Nie jesteś zalogowany
+    {% endif %}
 {% endblock content %}
+
+
+
+

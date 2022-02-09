@@ -2,8 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.utils import timezone
 from django.urls import reverse_lazy
-from .models import Post
-from .forms import PostForm, UpdateForm
+from .models import Post, Category
+from .forms import PostForm, UpdateForm, CategoryForm
 
 
 
@@ -12,7 +12,7 @@ from .forms import PostForm, UpdateForm
 #     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
 #     return render(request, 'blog/index.html', {'posts': posts})
 
-
+#post
 class HoneView(ListView):
     model = Post
     template_name = "blog/index.html"
@@ -46,11 +46,20 @@ class DeletePostView(DeleteView):
     success_url = reverse_lazy('blog-home')
 
 
+#category
+class AddCategoryView(CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'blog/category_add.html'
+    # zakomentowane linie poniewż używamy CategoryForm
+    # fields = "__all__"
+    # fields = ['author', 'title', 'title_tag', 'text']
+
+
+
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'blog/post_detail.html', {'post': post})
-
-
 
 def post_new(request):
     if request.method == "POST":

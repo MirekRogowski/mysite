@@ -28,10 +28,10 @@ class Post(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=200)
+    name_category = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.name
+        return self.name_category
 
     def get_absolute_url(self):
         return reverse("blog-home")
