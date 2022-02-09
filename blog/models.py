@@ -22,5 +22,5 @@ class Post(models.Model):
     def __str__(self):
         return f"{self.author} - {self.title} "
 
-    def get_absolute_url(self):
-        return reverse("blog-home")
+    # def get_absolute_url(self):
+    #     return reverse("blog-home")
