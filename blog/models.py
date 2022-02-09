@@ -14,6 +14,7 @@ class Post(models.Model):
             default=timezone.now)
     published_date = models.DateTimeField(
             blank=True, null=True)
+    category = models.CharField(max_length=200, default='uncatedorized')
 
     def publish(self):
         self.published_date = timezone.now()
@@ -22,5 +23,15 @@ class Post(models.Model):
     def __str__(self):
         return f"{self.author} - {self.title} "
 
-    # def get_absolute_url(self):
-    #     return reverse("blog-home")
+    def get_absolute_url(self):
+        return reverse("blog-home")
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("blog-home")

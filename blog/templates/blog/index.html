@@ -5,7 +5,7 @@
         <li id="{{ post.pk }}">
             <a href="{% url 'post-detail' post.pk %}">{{ post.title }} </a> -
             {{ post.author }}<br>
-            {{ post.text|slice:"300" }}<br>
+            {{ post.text|slice:"300"|safe }}<br>
         </li>
     {% endfor %}
 </ul>
