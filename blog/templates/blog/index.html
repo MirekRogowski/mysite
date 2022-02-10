@@ -2,13 +2,16 @@
 {% block content %}
 <ul>
     {% for post in object_list %}
-        <div id="{{ post.pk }}">
+        <div class="blog-item">
             <h3><a href="{% url 'post-detail' post.pk %}">{{ post.title }} </a></h3>
-            {{ post.author }} - {{ post.published_date|date:"d F, Y" }}
+            <div class="info">
+            {{ post.author }} - {{ post.created_date|date:"d F, Y" }}
             <a href="{% url 'category-post' post.category %}" >{{ post.category }}</a>
-            <div >
-                {{ post.text|slice:"300"|safe }}
             </div>
+            <p>
+                {{ post.text|truncatewords:30|safe }}
+                <a href="{% url 'post-detail' post.pk %}">czytaj dalej </a>
+            </p>
         </div>
     {% endfor %}
 </ul>

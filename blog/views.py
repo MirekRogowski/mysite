@@ -17,7 +17,9 @@ from .forms import PostForm, UpdateForm, CategoryForm
 class HoneView(ListView):
     model = Post
     template_name = "blog/index.html"
-    ordering = ['-published_date']
+    context_object_name = 'posts'
+    ordering = ['-created_date']
+    # paginate_by = 5
 
 
 class PostDetailView(DetailView):
@@ -66,16 +68,16 @@ def post_category_view(request, category):
 class PostCategoryView(ListView):
     model = Post
     template_name = 'blog/category_post.html'
-    queryset = Post.objects.filter
-
     # template_name = 'blog/post_category.html'
 
     def get_queryset(self):
-        category_list = get_object_or_404(Category, pk=self.kwargs['pk'])
-        return Post.objects.filter
+        self.category = get_object_or_404(Post, id=self.kwargs['category'])
+        return Post.objects.filter(category=self.category)
 
 
 
+
+    # def get_context_data(self, **kwargs):
     # model = Category
     # form_class = CategoryForm
     # template_name = 'blog/category_add.html'

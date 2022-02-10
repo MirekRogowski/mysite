@@ -5,11 +5,11 @@
 
 {% block content %}
     <div class="post">
-        {% if post.published_date %}
+        {% if post %}
              <h2>{{ post.title }} </h2>
-                {{ post.author }} - {{ post.published_date|date:"d F, Y" }}
+                {{ post.author }} - {{ post.created_date|date:"d F, Y" }}
                 {{ post.category }}
-            <div>{{ post.text|safe }}</div>
+            <div>{{ post.text }}</div>
 
         {% endif %}
 
