@@ -1,0 +1,19 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+{% if category_posts %}
+    <h3>{{ category }}</h3>
+    {{ category }}
+    <ul>
+        {% for post in category_posts %}
+            <li id="{{ post.pk }}">
+                <a href="{% url 'post-detail' post.pk %}">{{ post.title }} </a>
+                - Kategoria: {{post.category}}
+                - Autor: {{ post.author }}<br>
+                {{ post.text|slice:"300"|safe }}<br>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    Brak strony
+{% endif %}
+{% endblock %}

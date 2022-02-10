@@ -2,12 +2,14 @@
 {% block content %}
 <ul>
     {% for post in object_list %}
-        <li id="{{ post.pk }}">
-            <h3><a href="{% url 'post-detail' post.pk %}">{{ post.title }} </a></h3><br>
-            - Kategoria: {{post.category}}
-            - Autor: {{ post.author }}<br>
-            {{ post.text|slice:"300"|safe }}<br>
-        </li>
+        <div id="{{ post.pk }}">
+            <h3><a href="{% url 'post-detail' post.pk %}">{{ post.title }} </a></h3>
+            {{ post.author }} - {{ post.published_date|date:"d F, Y" }}
+            <a href="{% url 'category-post' post.category %}" >{{ post.category }}</a>
+            <div >
+                {{ post.text|slice:"300"|safe }}
+            </div>
+        </div>
     {% endfor %}
 </ul>
 {% endblock %}

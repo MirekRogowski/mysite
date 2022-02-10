@@ -57,8 +57,24 @@ class AddCategoryView(CreateView):
     # fields = ['author', 'title', 'title_tag', 'text']
 
 
-def PostCategoryView(request, category):
-    return render(request, "post_category", {'category': category})
+def post_category_view(request, category):
+    category_posts = Post.objects.filter(category=category)
+    return render(request, 'blog/category_post.html',
+                  {'category': category,'category_posts': category_posts})
+
+
+class PostCategoryView(ListView):
+    model = Post
+    template_name = 'blog/category_post.html'
+    queryset = Post.objects.filter
+
+    # template_name = 'blog/post_category.html'
+
+    def get_queryset(self):
+        category_list = get_object_or_404(Category, pk=self.kwargs['pk'])
+        return Post.objects.filter
+
+
 
     # model = Category
     # form_class = CategoryForm
