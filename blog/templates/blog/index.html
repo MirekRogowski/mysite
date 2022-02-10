@@ -3,7 +3,7 @@
 <ul>
     {% for post in object_list %}
         <li id="{{ post.pk }}">
-            <a href="{% url 'post-detail' post.pk %}">{{ post.title }} </a>
+            <h3><a href="{% url 'post-detail' post.pk %}">{{ post.title }} </a></h3><br>
             - Kategoria: {{post.category}}
             - Autor: {{ post.author }}<br>
             {{ post.text|slice:"300"|safe }}<br>

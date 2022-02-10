@@ -12,11 +12,12 @@ from .forms import PostForm, UpdateForm, CategoryForm
 #     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
 #     return render(request, 'blog/index.html', {'posts': posts})
 
+
 #post
 class HoneView(ListView):
     model = Post
     template_name = "blog/index.html"
-    ordering = ['-id']
+    ordering = ['-published_date']
 
 
 class PostDetailView(DetailView):
@@ -56,10 +57,21 @@ class AddCategoryView(CreateView):
     # fields = ['author', 'title', 'title_tag', 'text']
 
 
+def PostCategoryView(request, category):
+    return render(request, "post_category", {'category': category})
+
+    # model = Category
+    # form_class = CategoryForm
+    # template_name = 'blog/category_add.html'
+    # zakomentowane linie poniewż używamy CategoryForm
+    # fields = "__all__"
+    # fields = ['author', 'title', 'title_tag', 'text']
+
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'blog/post_detail.html', {'post': post})
+
 
 def post_new(request):
     if request.method == "POST":

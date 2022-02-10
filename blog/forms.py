@@ -13,14 +13,15 @@ def category_list():
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('author','category','title',"title_tag", 'text', 'created_date')
+        fields = ('author','category','title',"title_tag", 'text', 'published_date')
         widgets = {
             'author': forms.Select(attrs={'class': 'form-control'}),
             'category': forms.Select(choices=category_list(), attrs={'class': 'form-control'}),
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'title_tag': forms.TextInput(attrs={'class': 'form-control'}),
             'text': forms.Textarea(attrs={'class': 'form-control'}),
-            'created_date': forms.DateInput(attrs={'class': 'form-control'})
+            'created_date': forms.DateInput(attrs={'class': 'form-control'}),
+            'published_date': forms.DateInput(attrs={'class': 'form-control'})
         }
 
 

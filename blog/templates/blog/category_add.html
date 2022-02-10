@@ -2,6 +2,7 @@
 {% block title %}
     Create new category
 {% endblock %}
+{% load crispy_forms_tags %}
 {% block content %}
 
 {% if user.is_authenticated %}
@@ -10,7 +11,7 @@
     <div class="mb-3">
         <form method="POST" >
             {% csrf_token %}
-            {{ form }}<br><br>
+            {{ form|crispy }}<br><br>
             <button type="submit" class="btn btn-secondary">Add category</button>
         </form>
     </div>
