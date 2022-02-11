@@ -1,24 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.utils import timezone
-from django.urls import reverse_lazy, reverse
-
+from django.urls import reverse_lazy
 from .models import Post, Category
 from .forms import PostForm, UpdateForm, CategoryForm
 
 
-
-# Create your views here.
-# def post_list(request):
-#     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
-#     return render(request, 'blog/index.html', {'posts': posts})
-
-
-#post
 class HoneView(ListView):
     model = Post
     template_name = "blog/index.html"
     context_object_name = 'posts'
+    queryset = Post.objects.filter(status='publish')
     ordering = ['-created_date']
     # paginate_by = 5
 
@@ -54,7 +46,7 @@ class DeletePostView(DeleteView):
 
 #category
 class AddCategoryView(CreateView):
-    model = Category
+    model = Post
     form_class = CategoryForm
     template_name = 'blog/category_add.html'
     # zakomentowane linie poniewż używamy CategoryForm
@@ -65,17 +57,21 @@ class AddCategoryView(CreateView):
 def post_category_view(request, category):
     category_posts = Post.objects.filter(category=category)
     return render(request, 'blog/category_post.html',
-                  {'category': category,'category_posts': category_posts})
+                  {'category': category, 'category_posts': category_posts})
 
 
 class PostCategoryView(ListView):
     model = Post
+    # queryset = Post.posts.name()
     template_name = 'blog/category_post.html'
-    # template_name = 'blog/post_category.html'
+
+    # def get_queryset(self):
+    #     category = get_object_or_404(Category, id=self.kwargs.get('category__name'))
+    #     return Post.objects.filter(category_name=category)
 
     def get_queryset(self):
-        self.category = get_object_or_404(Post, id=self.kwargs['category'])
-        return Post.objects.filter(category=self.category)
+        # self.category = get_object_or_404(Post, id=self.kwargs['category'])
+        return Post.objects.filter(category_id=self.kwargs.get('pk'))
 
 
 

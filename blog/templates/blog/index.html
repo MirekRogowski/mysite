@@ -1,18 +1,24 @@
 {% extends 'blog/base.html' %}
 {% block content %}
 <ul>
-    {% for post in object_list %}
-        <div class="blog-item">
-            <h3><a href="{% url 'post-detail' post.pk %}">{{ post.title }} </a></h3>
-            <div class="info">
-            {{ post.author }} - {{ post.created_date|date:"d F, Y" }}
-            <a href="{% url 'category-post' post.category %}" >{{ post.category }}</a>
-            </div>
-            <p>
-                {{ post.text|truncatewords:30|safe }}
-                <a href="{% url 'post-detail' post.pk %}">czytaj dalej </a>
-            </p>
-        </div>
+    {% for post in posts %}
+
+                <div class="col-12">
+                <h3><a class="text-dark"  href="{% url 'post-detail' post.pk %}">{{ post.title }} </a></h3>
+                </div>
+
+                <div class="col-12">
+                {{ post.author }} - {{ post.created_date|date:"d F, Y" }}
+                <a href="{% url 'category-post' post.category.id %}" >{{ post.category }}</a>
+                </div>
+
+                <div class="col-12">
+                <p>{{ post.content|truncatewords:30|safe }}
+                    <a href="{% url 'post-detail' post.pk %}">czytaj dalej </a>
+                </p>
+                </div>
+
+
     {% endfor %}
 </ul>
 {% endblock %}

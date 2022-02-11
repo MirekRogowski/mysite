@@ -2,43 +2,36 @@ from django import forms
 from .models import Post, Category
 
 
-# def category_list():
-#     category = Category.objects.all().values_list('content', 'content')
-#     choices_list = []
-#     for item in category:
-#         choices_list.append(item)
-#     return choices_list
-
-
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('author', 'category', 'title',  'text')
+        fields = ('author', 'category', 'title', 'content', 'status')
         widgets = {
             'author': forms.Select(attrs={'class': 'form-control'}),
-            # 'category': forms.Select(choices=category_list(), attrs={'class': 'form-control'}),
+            'category': forms.Select(attrs={'class': 'form-control'}),
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-             'text': forms.Textarea(attrs={'class': 'form-control'}),
+            'content': forms.Textarea(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
         }
 
 
 class UpdateForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('author', 'category', 'title', 'text')
+        fields = ('author', 'category', 'title', 'content','status')
         widgets = {
             'author': forms.Select(attrs={'class': 'form-control'}),
-            # 'category': forms.Select(choices=category_list(), attrs={'class': 'form-control'}),
+            'category': forms.Select(attrs={'class': 'form-control'}),
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'text': forms.Textarea(attrs={'class': 'form-control'}),
+            'content': forms.Textarea(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
         }
 
 
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ('content',)
+        fields = ('name',)
         widgets = {
             'name_category': forms.TextInput(attrs={'class': 'form-control'}),
-
         }

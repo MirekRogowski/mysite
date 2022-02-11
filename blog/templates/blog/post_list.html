@@ -6,7 +6,7 @@
             <div class="date">
                 Wpis z dnia {{ post.created_date|date:"d F, Y" }}
             </div>
-            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+            <h2><a class="text-dark" href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
             <p>{{ post.text|linebreaksbr }}</p>
         </div>
     {% endfor %}

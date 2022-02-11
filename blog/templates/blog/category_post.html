@@ -1,5 +1,7 @@
 {% extends 'blog/base.html' %}
 {% block content %}
+to jest brak pola {{ post.category.name }}
+
 {% if category_posts %}
     <h3>Posty dla kategorii: {{ category }}</h3>
          {% for post in category_posts %}
@@ -17,6 +19,7 @@
         {% endfor %}
 {% else %}
     <div>
+        to jest brak pola {{ post.category.name }}
         <h3>Brak postów</h3>
     </div>
 {% endif %}
