@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.utils import timezone
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+
 from .models import Post, Category
 from .forms import PostForm, UpdateForm, CategoryForm
 
@@ -31,6 +32,7 @@ class AddPostView(CreateView):
     model = Post
     form_class = PostForm
     template_name = 'blog/post_add.html'
+    success_url = reverse_lazy("blog-home")
     # zakomentowane linie poniewż używamy PostForm
     # fields = "__all__"
     # fields = ['author', 'title', 'title_tag', 'text']
@@ -41,6 +43,7 @@ class UpdatePostView(UpdateView):
     template_name = 'blog/post_update.html'
     form_class = UpdateForm
     # fields = ['title', 'title_tag', 'text']
+    success_url = reverse_lazy("blog-home")
 
 
 class DeletePostView(DeleteView):
