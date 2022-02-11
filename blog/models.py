@@ -26,18 +26,18 @@ class Post(models.Model):
         return f"{self.author} - {self.title} -{self.category.name}"
 
     class Meta:
-        ordering = ['-created_date']
+        ordering = ('-created_date',)
 
 
 class Comment(models.Model):
     post = models.ForeignKey('Post', related_name='comments', on_delete=models.CASCADE)
-    name = models.CharField(max_length=20)
-    email = models.EmailField()
+    name = models.CharField(max_length=20, default="")
+    email = models.EmailField(max_length=100, blank=True, default="")
     content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ('-created_date',)
 
     def __str__(self):
-        return self.post
-
-
+        return f"Comment by {self.name}"

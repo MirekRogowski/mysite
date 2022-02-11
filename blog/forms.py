@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Category
+from .models import Post, Category, Comment
 
 
 class PostForm(forms.ModelForm):
@@ -7,11 +7,11 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ('author', 'category', 'title', 'content', 'status')
         widgets = {
-            'author': forms.Select(attrs={'class': 'form-control'}),
-            'category': forms.Select(attrs={'class': 'form-control'}),
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'author': forms.Select(attrs={'class': 'col-sm-12'}),
+            'category': forms.Select(attrs={'class': 'col-sm-12'}),
+            'title': forms.TextInput(attrs={'class': 'col-sm-12'}),
             'content': forms.Textarea(attrs={'class': 'form-control'}),
-            'status': forms.Select(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'col-sm-12'}),
         }
 
 
@@ -20,11 +20,11 @@ class UpdateForm(forms.ModelForm):
         model = Post
         fields = ('author', 'category', 'title', 'content','status')
         widgets = {
-            'author': forms.Select(attrs={'class': 'form-control'}),
-            'category': forms.Select(attrs={'class': 'form-control'}),
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'author': forms.Select(attrs={'class': 'col-sm-12'}),
+            'category': forms.Select(attrs={'class': 'col-sm-12'}),
+            'title': forms.TextInput(attrs={'class': 'col-sm-12'}),
             'content': forms.Textarea(attrs={'class': 'form-control'}),
-            'status': forms.Select(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'col-sm-12'}),
         }
 
 
@@ -34,4 +34,15 @@ class CategoryForm(forms.ModelForm):
         fields = ('name',)
         widgets = {
             'name_category': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('name', 'email', 'content')
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'col-sm-12'}),
+            'email': forms.TextInput(attrs={'class': 'col-sm-12'}),
+            'content': forms.Textarea(attrs={'class': 'form-control'}),
         }
