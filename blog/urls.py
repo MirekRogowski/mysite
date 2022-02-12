@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.HoneView.as_view(), name='blog-home'),
-    path('post/<int:pk>', views.PostDetailView.as_view(), name='post-detail'),
+    path('post/<pk>', views.PostDetailView.as_view(), name='post-detail'),
     path('post-add/', views.AddPostView.as_view(), name='post-add'),
     path('post-update/<int:pk>', views.UpdatePostView.as_view(), name='post-update'),
     path('post-delete/<int:pk>', views.DeletePostView.as_view(), name='post-delete'),

@@ -2,8 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.utils import timezone
 from django.urls import reverse_lazy
-from .models import Post, Category
-from .forms import PostForm, UpdateForm, CategoryForm
+from django.contrib import messages
+from .models import Post, Category, Comment
+from .forms import PostForm, UpdateForm, CategoryForm, CommentForm
 
 
 class HoneView(ListView):
@@ -17,14 +18,62 @@ class HoneView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
+    # queryset = Post.comments
     template_name = 'blog/post_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+
+        form = CommentForm()
+        post = get_object_or_404(Post, pk=pk)
+        comments = post.comments.all()
+
+        context['post'] = post
+        context['comments'] = comments
+        context['form'] = form
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = CommentForm(request.POST)
+        self.object = self.get_object()
+        context = super().get_context_data(**kwargs)
+
+        post = Post.objects.filter(id=self.kwargs['pk'])[0]
+        comments = post.comments.all()
+
+        context['post'] = post
+        context['comments'] = comments
+        context['form'] = form
+
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            content = form.cleaned_data['content']
+
+            comment = Comment.objects.create(
+                name=name, email=email, content=content, post=post
+            )
+
+            form = CommentForm()
+            context['form'] = form
+            return self.render_to_response(context=context)
+
+        return self.render_to_response(context=context)
 
 
 class AddPostView(CreateView):
     model = Post
     form_class = PostForm
     template_name = 'blog/post_add.html'
-    success_url = reverse_lazy("blog-home")
+
+    def get_success_url(self):
+        messages.success(
+            self.request, 'Your post has been created successfully.')
+        return reverse_lazy("blog-home")
+
+
+    # success_url = reverse_lazy("blog-home")
     # zakomentowane linie poniewż używamy PostForm
     # fields = "__all__"
     # fields = ['author', 'title', 'title_tag', 'text']
@@ -49,6 +98,8 @@ class AddCategoryView(CreateView):
     model = Post
     form_class = CategoryForm
     template_name = 'blog/category_add.html'
+    success_url = reverse_lazy("blog-home")
+
     # zakomentowane linie poniewż używamy CategoryForm
     # fields = "__all__"
     # fields = ['author', 'title', 'title_tag', 'text']
@@ -72,6 +123,8 @@ class PostCategoryView(ListView):
     def get_queryset(self):
         # self.category = get_object_or_404(Post, id=self.kwargs['category'])
         return Post.objects.filter(category_id=self.kwargs.get('pk'))
+
+
 
 
 

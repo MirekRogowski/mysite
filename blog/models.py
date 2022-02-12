@@ -30,10 +30,10 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey('Post', related_name='comments', on_delete=models.CASCADE)
     name = models.CharField(max_length=20, default="")
     email = models.EmailField(max_length=100, blank=True, default="")
     content = models.TextField()
+    post = models.ForeignKey('Post', related_name='comments', on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:

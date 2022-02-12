@@ -33,7 +33,7 @@ class CategoryForm(forms.ModelForm):
         model = Category
         fields = ('name',)
         widgets = {
-            'name_category': forms.TextInput(attrs={'class': 'form-control'}),
+            'name_category': forms.TextInput(attrs={'class': 'ol-sm-12'}),
         }
 
 
