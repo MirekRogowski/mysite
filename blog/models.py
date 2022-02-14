@@ -19,11 +19,11 @@ class Post(models.Model):
     content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
-    category = models.ForeignKey('Category', related_name='posts', on_delete=models.CASCADE)
+    category = models.ForeignKey('Category', related_name='posts', on_delete=models.PROTECT, default=1)
     status = models.CharField(choices=options, max_length=10, default='draft')
 
     def __str__(self):
-        return f"{self.author} - {self.title} -{self.category.name}"
+        return f"{self.author} : {self.title} : {self.category.name}"
 
     class Meta:
         ordering = ('-created_date',)

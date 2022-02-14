@@ -1,13 +1,31 @@
 {% extends 'blog/base.html' %}
-
 {% block content %}
+{% if user.is_authenticated %}
     {% for post in posts %}
-        <div class="post">
-            <div class="date">
-                Wpis z dnia {{ post.created_date|date:"d F, Y" }}
-            </div>
-            <h2><a class="text-dark" href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
-            <p>{{ post.text|linebreaksbr }}</p>
-        </div>
+                <div class="col-12">
+                <h3><a class="text-dark"  href="{% url 'post-detail' post.pk %}">{{ post.title }}</a>
+                {% if post.status == 'publish' %}
+                    - opublikowany
+                {% else %}
+                    - szkic
+                {% endif %}
+                </h3>
+                </div>
+
+                <div class="text-muted mb-3">
+                {{ post.author }} - {{ post.created_date|date:"d F, Y" }}
+                <a class="text-dark" href="{% url 'category-post' post.category.id %}" >{{ post.category }}</a>
+                <a href="{% url 'post-update' post.pk %}" type="submit" class="btn btn-secondary btn-sm">Edytuj</a>
+                <a href="{% url 'post-delete' post.pk %}" type="button" class="btn btn-secondary btn-sm">Usuń post</a>
+                </div>
+
+                <div class="col-12">
+                <p>{{ post.content|truncatewords:30|safe }}
+                    <a class="text-dark" href="{% url 'post-detail' post.pk %}">czytaj dalej </a>
+                </p>
+                </div>
     {% endfor %}
+{% else %}
+    Nie jesteś zalogowany
+{% endif %}
 {% endblock %}

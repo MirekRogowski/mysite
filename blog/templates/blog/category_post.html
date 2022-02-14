@@ -1,28 +1,31 @@
 {% extends 'blog/base.html' %}
+{% block title %}
+    Blog django - {{ category_name.cat }}
+{% endblock %}
 {% block content %}
-to jest brak pola {{ post.category.name }}
-
-{% if category_posts %}
-    <h3>Posty dla kategorii: {{ category }}</h3>
-         {% for post in category_posts %}
-            <div class="blog-item">
-                <h3><a href="{% url 'post-detail' post.pk %}">{{ post.title }} </a></h3>
-                <div class="info">
-                {{ post.author }} - {{ post.created_date|date:"d F, Y" }}
-                <a href="{% url 'category-post' post.category %}" >{{ post.category }}</a>
-                </div>
-                <p>
-                    {{ post.text|truncatewords:30|safe }}
-                    <a href="{% url 'post-detail' post.pk %}">czytaj dalej </a>
-                </p>
+{% if category_name %}
+    <h3>Posty dla kategorii: {{ category_name.cat }} </h3>
+    {% for post in category_name.posts %}
+            <div class="col-12">
+            <h3><a class="text-dark"  href="{% url 'post-detail' post.pk %}">{{ post.title }} </a></h3>
             </div>
-        {% endfor %}
+
+            <div class="text-muted mb-3">
+            {{ post.author }} - {{ post.created_date|date:"d F, Y" }}
+            <a class="text-dark" href="{% url 'category-post' post.category.id %}" >{{ post.category }}</a>
+            </div>
+
+            <div class="col-12">
+            <p>{{ post.content|truncatewords:30|safe }}
+                <a class="text-dark" href="{% url 'post-detail' post.pk %}">czytaj dalej </a>
+            </p>
+            </div>
+    {% endfor %}
 {% else %}
     <div>
-        to jest brak pola {{ post.category.name }}
+        to jest brak pola {{ category_name }}
         <h3>Brak postów</h3>
     </div>
 {% endif %}
-
 {% endblock %}
 

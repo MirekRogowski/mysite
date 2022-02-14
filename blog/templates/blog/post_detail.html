@@ -23,18 +23,17 @@
          </p>
     </div>
 
-    <div class="col-12">
-        <h4>Kometarze:</h4>
-    </div>
-
       {% if comments %}
+        <div class="col-12">
+            <h4>Kometarze:</h4>
+        </div>
         {% for comment in comments %}
           <div class="row mt-2">
             <div class="col-lg-11 offset-lg-1 mt-2">
                   <div class="card p-2">
                         <div class="row">
                               <div class="col-12">
-                                <strong>{{ comment.name }}</strong> napisał:
+                                <strong>{{ comment.name }}</strong>
                               </div>
                               <div class="col-12">
                                 <p class="m-1 mt-3">{{ comment.content }}</p>
@@ -51,7 +50,7 @@
 
       <!-- Form to leave comment -->
   <div class="row mt-5">
-      <h4>Zostaw komentarz:</h4>
+      <h4>Dodaj komentarz:</h4>
     <div class="col-lg-11 offset-lg-1 mt-2">
 
       <form method='POST'>
