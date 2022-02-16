@@ -5,6 +5,14 @@
 {% block content %}
 
 {% if user.is_authenticated %}
+     {% if messages %}
+        <div class="alert alert-danger" role="alert">
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+        </div>
+    {% endif %}
+
 
     <h3> {{ post.title }} </h3>
     <br>

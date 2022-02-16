@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Category, Comment
+from .models import Post, Category, Comment, Newsletter
 
 
 class PostForm(forms.ModelForm):
@@ -40,9 +40,31 @@ class CategoryForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('name', 'email', 'content')
+        fields = ('name', 'email', 'content',)
         widgets = {
             'name': forms.TextInput(attrs={'class': 'col-sm-12'}),
             'email': forms.TextInput(attrs={'class': 'col-sm-12'}),
             'content': forms.Textarea(attrs={'class': 'form-control'}),
         }
+
+
+class NewsletterForm(forms.ModelForm):
+    email = forms.EmailField(label='', widget=forms.EmailInput(attrs={
+        'placeholder': 'Twój email'}))
+
+    class Meta:
+        model = Newsletter
+        fields = ('email',)
+
+
+class SendMailForm(forms.ModelForm):
+
+    class Meta:
+        model = Post
+        fields = ('title', 'content','status')
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'col-sm-12'}),
+            'content': forms.Textarea(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'col-sm-12'}),
+        }
+

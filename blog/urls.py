@@ -12,4 +12,7 @@ urlpatterns = [
     path('category-add/', views.AddCategoryView.as_view(), name='category-add'),
     # path('category-post/<str:category>/', views.post_category_view, name='category-post'),
     path('category-post/<category>/', views.PostCategoryView.as_view(), name='category-post'),
+    path('newsletter/', views.AddNewsLetter.as_view(), name='newsletter'),
+    path('post-send/<int:pk>', views.SendPostView.as_view(), name='post-send'),
+
 ]

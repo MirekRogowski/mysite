@@ -5,6 +5,7 @@
 {% block content %}
 
 {% if user.is_authenticated %}
+
     <h3>Dodaj wpis </h3>
     <br>
     <div class="mb-3">
@@ -12,6 +13,7 @@
             {% csrf_token %}
             {{ form }}<br>
             <button type="submit" class="btn btn-secondary">Dodaj wpis</button>
+            <button type="submit" class="btn btn-secondary">Send message</button>
         </form>
     </div>
 {% else %}

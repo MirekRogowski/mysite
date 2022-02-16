@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, unique=True)
 
     def __str__(self):
         return self.name
@@ -27,6 +27,8 @@ class Post(models.Model):
 
     class Meta:
         ordering = ('-created_date',)
+        # get_latest_by = [{'status': 'publish'},]
+        get_latest_by = ['pk',]
 
 
 class Comment(models.Model):
@@ -41,3 +43,11 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment by {self.name}"
+
+
+class Newsletter(models.Model):
+    email = models.EmailField(null=True, unique=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email

@@ -17,6 +17,12 @@
                 <a class="text-dark" href="{% url 'category-post' post.category.id %}" >{{ post.category }}</a>
                 <a href="{% url 'post-update' post.pk %}" type="submit" class="btn btn-secondary btn-sm">Edytuj</a>
                 <a href="{% url 'post-delete' post.pk %}" type="button" class="btn btn-secondary btn-sm">Usuń post</a>
+
+                {% if post.status == 'publish' %}
+                    <a href="{% url 'post-send' post.pk %}" type="button" class="btn btn-secondary btn-sm">Newsletter</a>
+                {% endif %}
+
+
                 </div>
 
                 <div class="col-12">
