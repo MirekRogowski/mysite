@@ -5,7 +5,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.core.mail import send_mail, send_mass_mail
 from django.conf import settings
-from .models import Post, Category, Comment
+from .models import Post, Category, Comment, Newsletter
 from .forms import PostForm, UpdateForm, CategoryForm, CommentForm, NewsletterForm, SendMailForm
 
 
@@ -176,11 +176,11 @@ class SendPostView(UpdateView):
     success_url = reverse_lazy("post-list")
     context_object_name = 'send'
 
-    def form_valid(self, form):
-        messages.add_message(
-            self.request,
-            messages.SUCCESS,
-            'Post został zaktualizowany'
-        )
-        return super().form_valid(form)
+    # def get_queryset(self):
+    #     title = Post.title
+    #     context = Post.content
+    #     emails = Newsletter.email
+    #
+    #     return send_mail(title, context, settings.EMAIL_HOST_USER, [emails])
+
 

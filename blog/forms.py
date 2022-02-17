@@ -61,7 +61,7 @@ class SendMailForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ('title', 'content','status')
+        fields = ('title', 'content', 'status')
         widgets = {
             'title': forms.TextInput(attrs={'class': 'col-sm-12'}),
             'content': forms.Textarea(attrs={'class': 'form-control'}),

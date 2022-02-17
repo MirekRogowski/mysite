@@ -12,3 +12,4 @@
 /blog/templates/blog/base_.html
 /users/templates/users/test*
 /blog/templates/blog/tes*
+/blog/facebook.py
