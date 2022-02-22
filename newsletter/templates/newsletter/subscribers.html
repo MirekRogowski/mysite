@@ -1,0 +1,23 @@
+{% extends "blog/base.html" %}
+{% block title %} Send mail {% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+            {% for message in messages %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+            {% endfor %}
+    <div class="mb-3">
+                 <h3>Newsletter</h3>
+                    <hr>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form|crispy }}<br>
+                        <button type="submit" class="btn btn-secondary">Zapisz się</button>
+<!--                        <input type="submit" class="btn btn-secondary btn-sm" value="Subscribe">-->
+                    </form>
+    </div>
+{% endblock %}

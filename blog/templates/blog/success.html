@@ -1,0 +1,8 @@
+{% extends 'blog/base.html' %}
+
+{% block body %}
+<div class="mx-auto my-4 text-center">
+    <h1 class="fw-bolder text-success">Wiadomość została wysłana</h1>
+    <p class="my-5">Ponownie wysłanie  <a href="{% url 'post-send' %}">Newsletter</a></p>
+</div>
+{% endblock %}

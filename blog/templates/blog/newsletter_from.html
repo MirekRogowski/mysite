@@ -1,6 +1,6 @@
 {% extends 'blog/base.html' %}
 {% block title %}
-    Dodaj nowy wpis
+    Edycja postu
 {% endblock %}
 {% block content %}
 
@@ -12,16 +12,20 @@
         {% endfor %}
         </div>
     {% endif %}
-
-    <h3>Dodaj wpis </h3>
-    <br>
     <div class="mb-3">
-        <form method="POST" >
+        <form action="newsletter" method="POST" >
             {% csrf_token %}
-            {{ form }}<br>
-            <button type="submit" class="btn btn-secondary">Dodaj wpis</button>
+            Tytuł:
+            <br>{{ send.title }}<br>
+            <br>Treść wiadomości: {{ send.content | safe |truncatewords:30 }}
+            <br><br>Status: {{ send.status }}
+            <br>
+            <button type="submit" class="btn btn-secondary">Send newsletter</button>
         </form>
     </div>
+
+
+
 {% else %}
     Nie jesteś zalogowany
 {% endif %}

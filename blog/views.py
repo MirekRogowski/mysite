@@ -1,12 +1,16 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
+from django.views.generic import ListView, DetailView, CreateView, \
+    UpdateView, DeleteView, TemplateView, FormView
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.core.mail import send_mail, send_mass_mail
 from django.conf import settings
-from .models import Post, Category, Comment, Newsletter
-from .forms import PostForm, UpdateForm, CategoryForm, CommentForm, NewsletterForm, SendMailForm
+from .models import Post, Category, Comment, Newsletter, NewsLetterPost
+from .forms import PostForm, CategoryForm, CommentForm, \
+    NewsLetterForm, NewsLetterPostForm, ContactForm
+
+from django.apps import apps
 
 
 class HoneView(ListView):
@@ -73,31 +77,38 @@ class AddPostView(SuccessMessageMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = 'blog/post_add.html'
-    success_url = reverse_lazy("post-list")
-    success_message = "Add post"
+    success_url = reverse_lazy("post-add")
+    success_message = "Post został dodany"
 
     def form_valid(self, form):
-        messages.add_message(
-            self.request,
-            messages.SUCCESS,
-            'Nowy post został dodany'
-        )
+        form.instance.author = self.request.user
+        # messages.add_message(
+        #     self.request,
+        #     messages.SUCCESS,
+        #     'Post został dodany'
+        # )
+        print(form.cleaned_data)
         return super().form_valid(form)
+
+    def get_initial(self):
+        return {'author': self.request.user}
 
 
 class UpdatePostView(UpdateView):
     model = Post
     template_name = 'blog/post_update.html'
-    form_class = UpdateForm
+    form_class = PostForm
     success_url = reverse_lazy("post-list")
     context_object_name = 'post'
 
     def form_valid(self, form):
+        form.instance.author = self.request.user
         messages.add_message(
             self.request,
             messages.SUCCESS,
             'Post został zaktualizowany'
         )
+        print(form.cleaned_data)
         return super().form_valid(form)
 
 
@@ -127,6 +138,7 @@ class AddCategoryView(CreateView):
             messages.SUCCESS,
             f'Dodano nową kategorię',
         )
+        print(form.cleaned_data)
         return super().form_valid(form)
     # zakomentowane linie poniewż używamy CategoryForm
     # fields = "__all__"
@@ -152,8 +164,9 @@ class PostCategoryView(ListView):
         return content
 
 
-class AddNewsLetter(CreateView):
-    form_class = NewsletterForm
+class AddNewsLetterView(CreateView):
+    model = Newsletter
+    form_class = NewsLetterForm
     template_name = 'blog/newsletter.html'
     success_url = reverse_lazy("newsletter")
 
@@ -166,21 +179,98 @@ class AddNewsLetter(CreateView):
             messages.SUCCESS,
             'Zapisałeś się na newsletter'
         )
+        email = form.cleaned_data.get('email')
         return super().form_valid(form)
 
 
-class SendPostView(UpdateView):
+class NewsLetterPostView(DetailView):
     model = Post
     template_name = 'blog/newsletter_send.html'
-    form_class = SendMailForm
-    success_url = reverse_lazy("post-list")
+    form_class = NewsLetterPostForm
+    success_url = reverse_lazy("success")
     context_object_name = 'send'
 
-    # def get_queryset(self):
-    #     title = Post.title
-    #     context = Post.content
-    #     emails = Newsletter.email
-    #
-    #     return send_mail(title, context, settings.EMAIL_HOST_USER, [emails])
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(initial=self.initial)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        post = self.get_object()
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+            emails = NewsLetterPost.object.create(post=post)
+            return HttpResponseRedirect('/success/')
+
+        return render(request, self.template_name, {'form': form})
+
+    def get_context_data(self, **kwargs):
+        context = super(NewsLetterPostView, self).get_context_data(**kwargs)
+        context['title'] = self.get_object().title
+        context['content'] = self.get_object().content
+        return context
+
+    def send(self, request, **kwargs):
+        form = NewsLetterPostForm
+        post = self.get_object()
+        context = super(NewsLetterPostView, self).get_context_data(**kwargs)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+            emails = NewsLetterPost.object.create(post=post)
+            emails.save
 
 
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().get(request, *args, **kwargs)
+
+    # def post_create_mail(self, request):
+    #     self.object = self.get_object()
+    #     subject = self.object.title
+    #     message = self.object.content
+    #     email_from = 'xyz@gmail.com'
+    #     recipient_list = ['reciever@gmail.com', ]
+    #     connection = [
+    #         'xyz@gmail.com',
+    #         'mypassword',
+    #         False,
+    #     ]
+    #     send_mail(subject, message, email_from, recipient_list, connection)
+
+
+class ContactView(FormView):
+    template_name = 'blog/contact.html'
+    form_class = ContactForm
+    success_url = reverse_lazy('contact:success')
+
+    def form_valid(self, form):
+        # Calls the custom send method
+        form.send()
+        return super().form_valid(form)
+
+
+class ContactSuccessView(TemplateView):
+    template_name = 'blog/success.html'
+
+# def mail_letter(request, pk):
+#     emails = list(apps.get_model("Newsletter").objects.all().values_list("email"))
+#     print(emails)
+#     if request.method == 'POST':
+#         form = NewsLetterPostForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             title = form.cleaned_data.get('title')
+#             message = form.cleaned_data.get('message')
+#             for mail in emails:
+#                 send_mail(title, message, 'mirekr555@gmail.com', mail, fail_silently=False)
+#             messages.success(request, 'Wiadomość została wysłana')
+#             return redirect('mail-letter')
+#     else:
+#         form = NewsLetterPostForm()
+#     context = {
+#         'form': form,
+#     }
+#     return render(request, 'blog/newsletter_send.html', context)

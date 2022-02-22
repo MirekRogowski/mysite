@@ -15,7 +15,7 @@
     <h3>Edycja postu </h3>
     <br>
     <div class="mb-3">
-        <form method="POST" >
+        <form action="{{ post.id }}" method="POST" >
             {% csrf_token %}
             {{ form }}<br>
             <button type="submit" class="btn btn-secondary">Update</button>

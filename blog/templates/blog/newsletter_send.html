@@ -14,12 +14,13 @@
     {% endif %}
     <div class="mb-3">
         <form method="POST" >
-            Tytuł:
+            {% csrf_token %}
+            <h5>Tytuł:</h5>
             <br>{{ send.title }}<br>
-            <br>Treść wiadmości: {{ send.content | safe |truncatewords:30 }}
-            <br><br>Status: {{ send.status }}
+            <br><h5>Treść wiadomości:</h5> {{ send.content | safe |truncatewords:30 }}
+            <br><br><strong>Status wiadomości: {{ send.status }}</strong>
             <br>
-            <button type="submit" class="btn btn-secondary">Send newsletter</button>
+            <input type="submit" class="btn btn-secondary" value="Wyślij">
         </form>
     </div>
 

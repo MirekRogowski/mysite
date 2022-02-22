@@ -13,3 +13,7 @@
 /users/templates/users/test*
 /blog/templates/blog/tes*
 /blog/facebook.py
+/.env
+.idea/
+.idea/inspectionProfiles/Project_Default.xml
+.idea/misc.xml
