@@ -1,0 +1,16 @@
+{% extends "blog/base.html" %}
+{% block title %}
+    Reset password
+{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h2>Zmień hasło </h2>
+    <br>
+    <div class="mb-3">
+        <form method="POST" >
+            {% csrf_token %}
+            {{ form|crispy }}<br>
+            <button type="submit" class="btn btn-secondary">Resetuj hasło</button>
+        </form>
+    </div>
+{% endblock content %}

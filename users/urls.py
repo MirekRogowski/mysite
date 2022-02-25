@@ -1,12 +1,40 @@
 from django.urls import path
-from .views import UserRegisterView, BlogLoginView, UserRegister
+from django.contrib.auth import views as auth_views
+from .views import BlogLoginView, UserRegister, BlogLogoutView, BlogResetPasswordsView, \
+    BlogPasswordResetDoneView, BlogPasswordResetCompleteView
+
 
 urlpatterns = [
     path('register/', UserRegister.as_view(), name='register'),
-    path('', BlogLoginView.as_view(), name='login'),
+    path('login', BlogLoginView.as_view(), name='login'),
+    path('logout', BlogLogoutView.as_view(), name='logout'),
+    path('password_reset', BlogResetPasswordsView.as_view(), name='password-reset'),
+    path('password_reset/done/', BlogPasswordResetDoneView.as_view(), name='password-reset-done'),
+    path('reset/<uidb64>/<token>', BlogPasswordResetDoneView.as_view(), name='password-reset-confirm'),
+    path('password-reset-confirm/<uidb64>/<token>/', BlogPasswordResetDoneView.as_view(), name='password-reset-confirm'),
+    path('password_reset_complete', BlogPasswordResetCompleteView.as_view(), name='password-reset-complete'),
     # path('register/', SignUp_Form, name='register'),
     # path('profile/', user_views.profile, name='profile'),
-    # path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
-    # path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
+    # path('login', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
+    # path('logout', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
+    # path('password-reset', auth_views.PasswordResetView.as_view(template_name='users/password_reset.html'),name='password_reset'),
 
 ]
+
+
+
+# path('password-reset/done/',
+#      auth_views.PasswordResetDoneView.as_view(
+#          template_name='users/password_reset_done.html'
+#      ),
+#      name='password_reset_done'),
+# path('password-reset-confirm/<uidb64>/<token>/',
+#      auth_views.PasswordResetConfirmView.as_view(
+#          template_name='users/password_reset_confirm.html'
+#      ),
+#      name='password_reset_confirm'),
+# path('password-reset-complete/',
+#      auth_views.PasswordResetCompleteView.as_view(
+#          template_name='users/password_reset_complete.html'
+#      ),
+#      name='password_reset_complete'),

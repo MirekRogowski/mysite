@@ -25,7 +25,8 @@ def subscribers(request):
 
 
 def send_letter(request):
-    emails = list(apps.get_model("newsletter.Subscribers").objects.all().values_list("email"))
+    # emails = list(apps.get_model("newsletter.Subscribers").objects.all().values_list("email"))
+    emails = list(apps.get_model('blog.Newsletter').objects.all().values_list("email"))
     print(emails)
     if request.method == 'POST':
         form = MailMessageForm(request.POST)
@@ -35,6 +36,7 @@ def send_letter(request):
             message = form.cleaned_data.get('message')
             for mail in emails:
                 send_mail(title, message, settings.EMAIL_HOST_USER, mail, fail_silently=False)
+            # send_mail(title, message, settings.EMAIL_HOST_USER, emails, fail_silently=False)
             messages.success(request, 'Wiadomość została wysłana')
             return redirect('send-letter')
     else:

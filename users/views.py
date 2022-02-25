@@ -5,26 +5,55 @@ from django.contrib.auth.decorators import login_required
 
 from django.views import generic
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetDoneView, \
+    PasswordResetConfirmView, PasswordResetCompleteView
 from django.urls import reverse_lazy
 
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 
 
-class UserRegisterView(generic.CreateView):
-    form_class = UserCreationForm
-    template_name = 'users/register.html'
-    success_url = reverse_lazy('login')
+# class UserRegisterView(generic.CreateView):
+#     form_class = UserCreationForm
+#     template_name = 'users/register.html'
+#     success_url = reverse_lazy('login')
 
 
 class BlogLoginView(LoginView):
     template_name = 'users/login.html'
+    success_url = reverse_lazy('login')
+
+
+class BlogLogoutView(LogoutView):
+    template_name = 'users/logout.html'
+    success_url = reverse_lazy('logout')
+
+
+class BlogResetPasswordsView(PasswordResetView):
+    template_name = 'users/password_reset.html'
+    success_url = reverse_lazy('password_reset')
+    success_message = "Email został wysłany na podany email"
+
+
+class BlogPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'users/password_reset_done.html'
+    success_url = reverse_lazy('password_reset')
+
+
+class BlogPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'users/reset.html'
+    success_url = reverse_lazy('password_reset_confirm')
+
+
+class BlogPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'password_reset_complete.html'
+    success_url = reverse_lazy('password_reset_complete')
 
 
 class UserRegister(generic.CreateView):
     form_class = UserRegisterForm
     template_name = 'users/register.html'
     success_url = reverse_lazy('login')
+    success_message = "Utworzyłeś nowe konto"
 
 
 @login_required

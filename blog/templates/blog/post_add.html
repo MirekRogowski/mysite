@@ -23,7 +23,12 @@
         </form>
     </div>
 {% else %}
-    Nie jesteś zalogowany
+    <h3>Nie jesteś zalogowany</h3>
+        <div class="border-top pt-3">
+        <small class="text-muted">
+           <a class="ml-2" href="{% url 'login' %}">Zaloguj się</a>
+        </small>
+        </div>
 {% endif %}
 
 {% endblock %}
