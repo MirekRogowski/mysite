@@ -68,49 +68,48 @@ class NewsLetterForm(forms.ModelForm):
 
 
 class NewsLetterPostForm(forms.ModelForm):
-    model = Post
-    fields = ('title', 'content', 'status')
-    labels = {
-        'title': "Tytuł postu",
-        'content': 'Treść postu',
-        'status': "Status postu"
-    }
+
+    class Meta:
+        model = Post
+        fields = ('title', 'content', 'status')
+        labels = {
+            'title': "Tytuł postu",
+            'content': 'Treść postu',
+            'status': "Status postu"
+        }
 
 
 class ContactForm(forms.Form):
 
     name = forms.CharField(max_length=120)
     email = forms.EmailField()
-    inquiry = forms.CharField(max_length=70)
+    theme = forms.CharField(max_length=70)
     message = forms.CharField(widget=forms.Textarea)
 
+    class Meta:
+        labels = {
+            'name': 'Podaj Nick',
+            'email': 'Email',
+            'theme': 'Tamat',
+            'message': 'Wiadomość'
+        }
+
     def get_info(self):
-        """
-        Method that returns formatted information
-        :return: subject, msg
-        """
-        # Cleaned data
-        cl_data = super().clean()
-
-        name = cl_data.get('name').strip()
-        from_email = cl_data.get('email')
-        subject = cl_data.get('inquiry')
-
-        msg = f'{name} with email {from_email} said:'
-        msg += f'\n"{subject}"\n\n'
-        msg += cl_data.get('message')
-
-        return subject, msg
+        clean_data = super().clean()
+        name = clean_data.get('name').strip()
+        email = clean_data.get('email')
+        subject = clean_data.get('theme')
+        message = clean_data.get('message')
+        content = f'{name} with email {email} said: \n"{subject}"\n\n {message}'
+        return subject, content
 
     def send(self):
-
-        subject, msg = self.get_info()
-
+        subject, content = self.get_info()
         send_mail(
             subject=subject,
-            message=msg,
+            message=content,
             from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[settings.RECIPIENT_ADDRESS]
+            recipient_list=[settings.EMAIL_HOST_USER]
         )
 
 

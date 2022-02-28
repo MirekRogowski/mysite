@@ -12,7 +12,7 @@
     <div class="text-muted mb-3">
         <a class="text-dark" href="{% url 'post-users' post.author.username %}" > {{ post.author }}</a>
         {{ post.author }} - {{ post.created_date|date:"d F, Y" }}
-        <a href="{% url 'category-post' post.category.id %}" >{{ post.category }}</a>
+        <a href="{% url 'category-post' post.category.name %}" >{{ post.category }}</a>
         {% if user.is_authenticated and post.author == user %}
             <div>
                 <a href="{% url 'post-update' post.pk %}" type="submit" class="btn btn-secondary btn-sm">Edit</a>

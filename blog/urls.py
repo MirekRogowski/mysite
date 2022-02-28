@@ -16,6 +16,6 @@ urlpatterns = [
     path('newsletter/', views.AddNewsLetterView.as_view(), name='newsletter'),
     path('post-send/<int:pk>', views.NewsLetterPostView.as_view(), name='post-send'),
     # path('post-send/<int:pk>', views.mail_letter, name='post-send'),
-
+    path('kontakt/', views.ContactView.as_view(), name='contact'),
 ]
 

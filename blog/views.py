@@ -164,11 +164,6 @@ class AddCategoryView(CreateView):
         print(form.cleaned_data)
         return super().form_valid(form)
 
-# def post_category_view(request, category):
-#     category_posts = Post.objects.filter(category=category)
-#     return render(request, 'blog/category_post.html',
-#                   {'category': category, 'category_posts': category_posts})
-
 
 class PostCategoryView(ListView):
     context_object_name = 'posts'
@@ -180,14 +175,6 @@ class PostCategoryView(ListView):
         category = get_object_or_404(Category, name=self.kwargs.get('category'))
         return Post.objects.filter(category=category).filter(status='publish').order_by('-created_date')
 
-    # def get_queryset(self):
-    #     content = {
-    #         'cat': Category.objects.get(id=self.kwargs['category']),
-    #         'posts': Post.objects.filter(category=self.kwargs['category']).filter(status='publish'),
-    #     }
-    #     return content
-
-
 
 class AddNewsLetterView(CreateView):
     model = Newsletter
@@ -195,51 +182,51 @@ class AddNewsLetterView(CreateView):
     template_name = 'blog/newsletter.html'
     success_url = reverse_lazy("newsletter")
 
-
     def form_valid(self, form):
         messages.add_message(
             self.request,
             messages.SUCCESS,
             'Zapisałeś się na newsletter'
         )
-        email = form.cleaned_data.get('email')
         return super().form_valid(form)
 
 
-class NewsLetterPostView(DetailView):
+class NewsLetterPostView(SuccessMessageMixin, UpdateView):
     model = Post
     template_name = 'blog/newsletter_send.html'
     form_class = NewsLetterPostForm
-    success_url = reverse_lazy("success")
+    success_url = reverse_lazy("")
     context_object_name = 'send'
 
-    # def get(self, request, *args, **kwargs):
-    #     form = self.form_class(initial=self.initial)
-    #     print(form)
-    #     return render(request, self.template_name, {'form': form})
-
     def form_valid(self, form):
+        form.instance.title = self.request.title
+        print(form.instance.title)
+        form.instance.content = self.request.content
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            'Zapisałeś się na newsletter'
+            'Post został zaktualizowany'
         )
-        email = form.cleaned_data.get('email')
         return super().form_valid(form)
 
-    def get_context_data(self, **kwargs):
-        context = super(NewsLetterPostView, self).get_context_data(**kwargs)
-        context['title'] = self.get_object().title
-        print("tytul---1", self.get_object().title)
-        context['content'] = self.get_object().content
-        print("contemt---2", self.get_object().content)
-        return context
 
-    def send(self, request, **kwargs):
-        form = NewsLetterPostForm
-        post = self.get_object()
-        context = super(NewsLetterPostView, self).get_context_data(**kwargs)
-        if form.is_valid():
-            title = form.cleaned_data['title']
-            content = form.cleaned_data['content']
-            emails = NewsLetterPost.object.create(post=post)
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(NewsLetterPostView, self).get_context_data(**kwargs)
+    #     context['title'] = self.get_object().title
+    #     print("tytul---1", self.get_object().title)
+    #     context['content'] = self.get_object().content
+    #     print("contemt---2", self.get_object().content)
+    #     print("context ---33->", context)
+    #     return context
+
+
+class ContactView(FormView):
+    template_name = 'blog/contact.html'
+    form_class = ContactForm
+    success_url = reverse_lazy('contact')
+
+    def form_valid(self, form):
+        form.send()
+        return super().form_valid(form)
+

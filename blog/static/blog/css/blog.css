@@ -53,3 +53,36 @@ h1, h2, h3, h4 {
 .post h2 a, .post h1 a:visited {
     color: #000000;
 }
+
+
+ul.page-numbers {
+	text-align: center;
+}
+
+ul.page-numbers li {
+	display: inline-block;
+	margin: 0px 5px;
+}
+
+ul.page-numbers li a {
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+	text-align: center;
+	line-height: 50px;
+	font-size: 15px;
+	color: #7a7a7a;
+	border: 1px solid #eee;
+	font-weight: 500;
+	transition: all 0.3s;
+}
+
+ul.page-numbers li.active a {
+	background-color: #f48840;
+	border-color: #f48840;
+	color: #fff;
+}
+
+ul.page-numbers li a:hover {
+	color: #f48840;
+}
